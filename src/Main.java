@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -194,22 +195,41 @@ public class Main extends Application {
         Pane root = new Pane();
         root.setPrefSize(gridSize * 35, gridSize * 35);
 
-        // Create all tile and buttons on the grid assign tiles to be bombs based on
-        // percentage
+        // Create all tile and buttons on the grid
         for (int y = 0; y < gridSize; y++) {
             for (int x = 0; x < gridSize; x++) {
 
-                Tile tile = new Tile(x, y, Math.random() < (double) bombPercent / 100);
+                Tile tile = new Tile(x, y, false);
 
                 grid[x][y] = tile;
                 root.getChildren().add(tile);
+            }
+        }
 
+        // Assign bombs randomly to tiles.
+        for(int i = 0; i < gridSize*gridSize / bombPercent; i++){
+
+            Random rand = new Random();
+
+            int x = rand.nextInt(gridSize);
+            int y = rand.nextInt(gridSize);
+
+            if(grid[x][y].hasBomb){
+                if (i == 0) {
+                    i = 0;
+                } else {
+                    i--;
+                }
+            }
+            else{
+                grid[x][y].hasBomb = true;
+                numBombs++;
             }
         }
 
         // Add values to the tiles and set their colours accordingly.
-        for (int y = 0; y < gridSize; y++) {
-            for (int x = 0; x < gridSize; x++) {
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid[0].length; x++) {
 
                 int numNeighboursBomb = 0;
 
