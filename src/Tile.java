@@ -13,19 +13,16 @@ import javafx.scene.media.AudioClip;
 class Tile extends StackPane {
 
     Button btn = new Button();
-    int x, y = 0;
     boolean hasBomb;
     int numBombs = 0;
     Color color = null;
-    boolean flagged = false;
+    private boolean flagged = false;
     ArrayList<Tile> neighbours = new ArrayList<Tile>();
-    boolean active = true;
+    private boolean active = true;
 
     static Image flag = new Image("flag.png");
 
-    public Tile(int x, int y, boolean hasBomb) {
-        this.x = x;
-        this.y = y;
+    Tile(int x, int y, boolean hasBomb) {
         this.hasBomb = hasBomb;
 
         if (hasBomb) {
@@ -35,9 +32,7 @@ class Tile extends StackPane {
         btn.setMinHeight(35);
         btn.setMinWidth(35);
 
-        btn.setOnMouseClicked(e -> {
-            onClick(e);
-        });
+        btn.setOnMouseClicked(this::onClick);
 
         getChildren().addAll(btn);
 
@@ -47,7 +42,6 @@ class Tile extends StackPane {
     }
 
     private void onClick(MouseEvent e) {
-
         if (Main.sound) {
             AudioClip click = new AudioClip(Main.class.getResource("click.wav").toString());
             click.play();
@@ -81,9 +75,7 @@ class Tile extends StackPane {
                 btn.setGraphic(new ImageView(flag));
                 if (this.hasBomb) {
                     Main.foundBombs++;
-                    if (Main.foundBombs == Main.numBombs) {
-                        Main.win();
-                    }
+                    if (Main.foundBombs == Main.numBombs) Main.win();
                 }
             } else {
                 if (hasBomb) {
@@ -96,7 +88,6 @@ class Tile extends StackPane {
     }
 
     private void blankClick(Tile tile) {
-
         for (int i = 0; i < tile.neighbours.size(); i++) {
             if (tile.neighbours.get(i).active) {
                 tile.neighbours.get(i).btn.setDisable(true);
@@ -110,7 +101,6 @@ class Tile extends StackPane {
 
             }
         }
-        return;
     }
 
 }
