@@ -74,9 +74,12 @@ public class Main extends Application {
         MenuItem about = new MenuItem("About");
         about.setOnAction(e -> {
             Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION,
-                    "Created by Robert Sanders. \n" + "sanry030@mymail.unisa.edu.au \n" + "v 1.1.0", ButtonType.CLOSE);
+                    "Created by Robert Sanders. \n" + "sanry030@mymail.unisa.edu.au \n" + "v 1.0.1", ButtonType.CLOSE);
             aboutAlert.setTitle("About");
             aboutAlert.setHeaderText("Minesweeper");
+
+            ((Stage) aboutAlert.getDialogPane().getScene().getWindow()).getIcons().add(mine);
+
             aboutAlert.showAndWait();
         });
         MenuItem help = new MenuItem("Help");
@@ -284,6 +287,7 @@ public class Main extends Application {
         }
 
         Alert gameOver = new Alert(AlertType.INFORMATION);
+        ((Stage) gameOver.getDialogPane().getScene().getWindow()).getIcons().add(mine);
         gameOver.setTitle("Game Over!");
         gameOver.setGraphic(new ImageView(mine));
         gameOver.setHeaderText("Bomb Exploded!");
@@ -304,9 +308,17 @@ public class Main extends Application {
             AudioClip winSound = new AudioClip(Main.class.getResource("win.wav").toString());
             winSound.play();
         }
+
+        Image winTrophy = new Image("winTrophy.png");
+        ImageView winTrophyView = new ImageView(winTrophy);
+        winTrophyView.setSmooth(true);
+        winTrophyView.setPreserveRatio(true);
+        winTrophyView.setFitHeight(50);
+
         Alert win = new Alert(AlertType.CONFIRMATION);
+        ((Stage) win.getDialogPane().getScene().getWindow()).getIcons().add(mine);
         win.setTitle("Win!");
-        win.setGraphic(new ImageView(Tile.flag));
+        win.setGraphic(winTrophyView);
         win.setHeaderText("Congratulations!");
         win.setContentText("You found all the bombs in " + secondsPassed + " seconds.");
         win.showAndWait();
