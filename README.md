@@ -1,4 +1,4 @@
-# Minesweeper - Ver 1.0.0
+# Minesweeper - Ver 1.0.1
 Version 1.0.0
 
 Simple minesweeper game made using JavaFX.
